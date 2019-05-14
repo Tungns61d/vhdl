@@ -64,7 +64,88 @@ architecture controller of controller is
                      XOR_S, XOR_Sa, XOR_Sb, OR_S, OR_Sa, OR_Sb, AND_S, AND_Sa, AND_Sb, JZ, JZa, JZb, JEQ,JEQa, JEQb, 
                      JGT,JGTa, JGTb, JLT, JLTa, JLTb, CLR, CLRa, CLRb, PRS, PRSa, PRSb, NOP);
 
+		signal OPcode:std_LOGIC_VECTOR(3 downto 0);
+		signal state:state_type;
+		
 begin
- 
+OPCode<=Instr_in(15 downto 12);
+
+process(reset,clk,opcode)
+begin
+if reset='1'  then
+state<=resET_S;
+elsif clk'event and clk='1' then
+ case state is 
+		WheN REsET_S=>
+		state<=fetCH;
+		when fetCH=>
+		state<=fetCHa;
+		when fetCHa=>
+		state<=fetCHb;
+		when fetCHb=>
+		state<=decODE;
+		casE opcode is
+		
+		
+			WHEN "0000" => state <= MOV1;
+			WHEN "0001" => state <= MOV2;
+			WHEN "0010" => state <= MOV3;
+			WHEN "0011" => state <= MOV4;
+			WHEN "0100" => state <= ADD;
+			WHEN "0101" => state <= SUB;
+			WHEN "0110" => state <= JZ;
+			WHEN "0111" => state <= OR_S;
+			WHEN "1000" => state <= AND_S;
+			
+			WHEN OTHERS => state <=NOP ;
+		END CASE;
+		when MOV1 =>
+		STAte<=Mov1a;
+		Ms <= '01'; -- load IR
+		Mre <= '1';
+		
+		
+		when MOV1a =>
+		RFs <= '10'; -- increment PC
+	RFWa <= rn;
+	RFwe <= '1';
+		STAte<=fetCH;
+		
+		
+		when MOV2 =>
+		STAte<=Mov2a;
+		
+		when MOV2a =>
+		STAte<=fetCH;
+		
+		when MOV3 =>
+		STAte<=Mov3a;
+		
+		when MOV3a =>
+		STAte<=fetCH;
+		
+		when MOV4 =>
+		RFs="01";
+		RFwa='rn';
+		RFWe='1';
+		STAte<=fetCH;
+		
+		when Add =>
+		STAte<=Adda;
+		
+		when Adda =>
+		STAte<=fetCH;
+		
+		when sub =>
+		STAte<=suba;
+		
+		when suba =>
+		STAte<=fetCH;
+		
+		When othERS=>state<=resET_S;
+		end casE;
+end if;
+		end proCESS;
+		
 
 end controller;
