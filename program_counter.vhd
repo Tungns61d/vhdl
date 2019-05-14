@@ -43,7 +43,23 @@ entity program_counter is
 end program_counter;
 
 architecture program_counter of program_counter is
-
+signal pc_z: std_LOGIC_VECTOR( datA_WIDTH -1 downto 0);
 begin
-         
+   process(clk,PCclr)
+	begin
+	if(PCclr='1') then
+	PC_out<=	(Others ='0');
+	elsif (clk='1' and clk'event) then
+		if PCld<='1' then
+		pc_z<=pc_in;
+		
+	
+	
+	elsif (PCincr='1') then
+	pz_z<=pc_z+1;
+	
+	end if;
+	end if;
+			end process;
+			pc_out<=pc_z;
 end program_counter;

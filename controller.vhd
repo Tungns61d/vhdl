@@ -80,12 +80,21 @@ state<=resET_S;
 elsif clk'event and clk='1' then
  case state is 
 		WheN REsET_S=>
+		pcclr='1';
 		state<=fetCH;
+		
+		
 		when fetCH=>
+		addr_sel='10';
+		mre='1';
 		state<=fetCHa;
+		
 		when fetCHa=>
+		IRld='1';
 		state<=fetCHb;
+		
 		when fetCHb=>
+		PCincr='1';
 		state<=decODE;
 		casE opcode is
 		
@@ -102,49 +111,74 @@ elsif clk'event and clk='1' then
 			
 			WHEN OTHERS => state <=NOP ;
 		END CASE;
-		when MOV1 =>
-		STAte<=Mov1a;
-		Ms <= '01'; -- load IR
-		Mre <= '1';
 		
-		
-		when MOV1a =>
-		RFs <= '10'; -- increment PC
+	when MOV1 =>
+	STAte<=Mov1a;
+	Ms <= '01'; -- load IR
+	Mre <= '1';
+
+
+	when MOV1a =>
+	RFs <= '10'; -- increment PC
 	RFWa <= rn;
 	RFwe <= '1';
-		STAte<=fetCH;
-		
-		
-		when MOV2 =>
-		STAte<=Mov2a;
-		
-		when MOV2a =>
-		STAte<=fetCH;
-		
-		when MOV3 =>
-		STAte<=Mov3a;
-		
-		when MOV3a =>
-		STAte<=fetCH;
-		
-		when MOV4 =>
-		RFs="01";
-		RFwa='rn';
-		RFWe='1';
-		STAte<=fetCH;
-		
-		when Add =>
-		STAte<=Adda;
-		
-		when Adda =>
-		STAte<=fetCH;
-		
-		when sub =>
-		STAte<=suba;
-		
-		when suba =>
-		STAte<=fetCH;
-		
+	STAte<=fetCH;
+
+
+	when MOV2 =>
+	OPr1=rn; opr1e='1';
+	STAte<=Mov2a;
+
+	when MOV2a =>
+	addr_sel="01";mwe='1';
+	STAte<=fetCH;
+
+	when MOV3 =>
+	OPR1a = rn; OPR1e = ‘1';
+OPR2a = rm; OPR2e = ‘1';
+	STAte<=Mov3a;
+
+	when MOV3a =>
+	MS = “00”;
+Mwe = ‘1';
+	STAte<=fetCH;
+
+	when MOV4 =>
+	RFs="01";
+	RFwa=rn;
+	RFWe='1';
+	STAte<=fetCH;
+
+	when Add =>
+	OPR1a = rn; OPR1e = ‘1';
+OPR2a = rm; OPR2e = ‘1';
+ALUs = “00”;
+	STAte<=Adda;
+
+	when Adda =>
+	RFs = “00”;
+RFwa = rn; RFwe = ‘1’;
+	STAte<=fetCH;
+
+	when sub =>
+	OPR1a = rn; OPR1e = ‘1';
+OPR2a = rm; OPR2e = ‘1';
+ALUs = “01”;
+	STAte<=suba;
+
+	when suba =>
+	RFs = “00”;
+RFwa = rn; RFwe = ‘1';
+	STAte<=fetCH;
+	
+	when jz =>
+	OPR1a = rn; OPR1e = ‘1';
+	STAte<=jza;
+	
+	when jza =>
+	PCLd = ALUz;
+			STAte<=fetCH;
+
 		When othERS=>state<=resET_S;
 		end casE;
 end if;

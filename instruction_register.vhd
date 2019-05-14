@@ -38,5 +38,13 @@ end instruction_register;
 architecture instruction_register of instruction_register is
 
 begin
-
+ process(clk)
+ begin
+ if (clk='1' and clk'event) then
+ if(IRLd='1') then
+ ir_out<=ir_in;
+ 
+ end if;
+ end if;
+ end process;
 end instruction_register;
