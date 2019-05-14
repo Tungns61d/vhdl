@@ -174,13 +174,32 @@ end if;
 	with state select RFs<="10" when mov1a,
 								"01" when mov4,
 								"00" when Adda||Suba,
-								"11" when othER;
+								"11" when othERs;
 								
-	with state select RFWa<="10" when mov1a,
-								"01" when mov4,
-								"00" when Adda||Suba,
-								"11" when othER;
+	with state select RFWa<=rn when mov1a|adda|mov4|suba,
+								"0000" when othERs;
 								
+	with state select RFWe<=rn when mov1a|adda|mov4|suba,
+							"0000" when othERs;
+							
+							--read opr1
+						with state select Opr1a<='1' when mov2|mov3|add|sub|Jz,
+								"0000" when othERs;
+								
+	with state select OPR1e<=rn when mov2|mov3|add|sub|Jz,
+							"0000" when othERs;
+							
+							--read opr2
+							with state select Opr2a<=rm when mov3|add|sub,
+								"0000" when othERs;
+								
+	with state select OPR2e<='1' when mov3|add|sub,
+							"0000" when othERs;
+					--select operationi of ALU
+		with state select ALUs<="00" when add|adda,
+								"01" when sub|suba,
+								"10" when OR_S,
+								"11" when othERs;			
 	
 										
 end controller;
