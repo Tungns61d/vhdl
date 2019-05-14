@@ -67,9 +67,12 @@ architecture controller of controller is
 		signal OPcode:std_LOGIC_VECTOR(3 downto 0);
 		signal state:state_type;
 		
+		SIGnal RN,rm: STD_LOGIC_VECTOR(3 downto 0);
+		
 begin
 OPCode<=Instr_in(15 downto 12);
-
+rn<=Instr_in(11 downto 8);--khai bao ra thi gan gia tri cho no
+rm<=Instr_in(7 downto 4);--4 bit tiep theo
 process(reset,clk,opcode)
 begin
 if reset='1'  then
@@ -148,4 +151,36 @@ end if;
 		end proCESS;
 		
 
+--output function
+	PCclr<='1' when state<=resET_S else '0';
+	PCincr<='1' when state<=fetCHb else '0';
+	PCld<= ALUz when state<=Jza else '0';
+	--for ir
+		IRld<='1' when state<=fetCHa else '0';
+		
+		----song song va nam ngoai process nen khong the dung case
+		--with selecting memory address
+	with state select addr_sel<="10" when fetCH,
+		"01" when mov1|mov2a,
+		"00" when mov3a,
+		"11" when othER;
+		--enable memory reading	
+	with state select mre<='1' when fetCH|mov1,
+		'0' when othERs;
+			--enable memory writing	
+	with state select mwe<='1' when mov2a|mov3a,
+		'0' when othERs;
+		--write RFs
+	with state select RFs<="10" when mov1a,
+								"01" when mov4,
+								"00" when Adda||Suba,
+								"11" when othER;
+								
+	with state select RFWa<="10" when mov1a,
+								"01" when mov4,
+								"00" when Adda||Suba,
+								"11" when othER;
+								
+	
+										
 end controller;
