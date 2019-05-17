@@ -56,7 +56,8 @@ begin
  begin
 	if reset = '1' then
 	--RF<=Others=> (Others =>	'0'); chua chac
-	rf<=(others => (others=>'0');
+	rf<=(others => (others=>'0'); --mo ta phan ghi du lieu vao rf
+
 	OPR1<=(Others ='0');
 	OPR2<=(others ='0');
 	

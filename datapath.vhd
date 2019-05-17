@@ -57,7 +57,7 @@ signal OPR1,OPR2 std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
 
 
 begin
-mux3to1_ic1:mux3to1 port map (data_in1=>,data_in2=>data_in2,sel=>RFs,data_out=>RFin );
+mux3to1_ic1:mux3to1 port map (data_in0=>alur,data_in1=>data_in1,data_in2=>data_in2,sel=>RFs,data_out=>RFin );
 rf_ic2: register_file port map (
 	reset => reset,
 	clk =>clk,

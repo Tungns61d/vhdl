@@ -114,7 +114,7 @@ elsif clk'event and clk='1' then
 		
 	when MOV1 =>
 	STAte<=Mov1a;
-	Ms <= '01'; -- load IR
+	Addr_sel <= '01'; -- load IR
 	Mre <= '1';
 
 
@@ -139,7 +139,7 @@ OPR2a = rm; OPR2e = ‘1';
 	STAte<=Mov3a;
 
 	when MOV3a =>
-	MS = “00”;
+	Addr_sel = “00”;
 Mwe = ‘1';
 	STAte<=fetCH;
 
