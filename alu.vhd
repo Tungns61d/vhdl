@@ -54,10 +54,10 @@ When "00" => result <= OPR1+OPR2;
 When "01" => result <= OPR1-OPR2;
 When "10" => result <= OPR1 OR OPR2;
 When "11" => result <= OPR1 AND OPR2;
-When others => result <= others => '0');
+When others => result <=( others => '0');
 end case;
 end process;
 
 ALUr <= result;
-alu <='1' when (OPR1 =0) else '0';
+aluz <='1' when (OPR1 =0) else '0';
 end ALU;

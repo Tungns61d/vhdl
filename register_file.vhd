@@ -48,31 +48,32 @@ entity register_file is
 end register_file;
 
 architecture register_file of register_file is
-type RF_array is array (integer range <>) of std_LOGIC_VECTOR(DatA_WIDTH - 1 downto 0)
+type RF_array is array (integer range <>) of std_LOGIC_VECTOR(DatA_WIDTH - 1 downto 0);
 signal RF:rf_array (0 to 15);
 
 begin
  process (clk,reset)
  begin
-	if reset = '1' then
+if reset = '1' then
 	--RF<=Others=> (Others =>	'0'); chua chac
-	rf<=(others => (others=>'0'); --mo ta phan ghi du lieu vao rf
+	rf<=(others => (others=>'0')); --mo ta phan ghi du lieu vao rf
 
-	OPR1<=(Others ='0');
-	OPR2<=(others ='0');
+	OPR1<=(Others =>'0');
+	OPR2<=(others =>'0');
 	
-	elsif (clk ='1' and clk'event) then
+elsif (clk ='1' and clk'event) then
 		if RFwe ='1' then
 			RF(conv_integer(RFWa)) <=RFin;
 		end if;
 		
 		if OPR1e='1' then
-		opr1<=RF(conv_integer(OPR1a))
+			opr1<=RF(conv_integer(OPR1a));
 		end if;
 		
 		if OPR2e='1' then
-		opr2<=RF(conv_integer(OPR2a))
+			opr2<=RF(conv_integer(OPR2a));
 		end if;
-  end if;
+end if;
+
  end process;
 end register_file;

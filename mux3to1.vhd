@@ -43,8 +43,8 @@ architecture mux3to1 of mux3to1 is
 
 begin
 with sel select
-data_out<=data_in0 when "00"
-data_in1 when "01"
+data_out<=data_in0 when "00",
+data_in1 when "01",
 data_in2 when others;
 		
 end mux3to1;

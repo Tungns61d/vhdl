@@ -51,9 +51,9 @@ entity datapath is
 end datapath;
 
 architecture datapath_arc of datapath is
-signal ALUr std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
-signal RFin std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
-signal OPR1,OPR2 std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal ALUr :std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal RFin :std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal OPR1,OPR2: std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
 
 
 begin

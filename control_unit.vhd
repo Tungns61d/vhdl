@@ -58,35 +58,36 @@ end control_unit;
 
 architecture control_unit of control_unit is
 
-signal irout std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
-signal pcout std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
-
+signal irout :std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal pcout :std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal pcclr,PCincr,Irld,pcld: STD_LOGIC;
+signal addr_sel: STD_LOGIC_VECTOR(1 downto 0);
 
 begin
-mux_ic1:mux3to1 port map (data_in0=>data_in0,data_in1=>irout,data_in2=>pcout,sel=>Addr_sel,data_out=>addr_out );
+mux_ic1:mux3to1 port map (data_in0=>mem_in,data_in1=>irout,data_in2=>pcout,sel=>Addr_sel,data_out=>addr_out );
 pc_ic2:program_counter port map(
  clk => clk,
            PCclr =>pcclr,
            PCincr =>PCincr,
            PCld =>pcld,
            PC_in =>irout,
-           PC_out =>pc_out);
+           PC_out =>pcout);
 			  
 ir_ic3:instruction_register Port map (
 			clk =>clk,
-           IR_in =>ir_in,
+           IR_in =>Addr_in,
            IRld =>IRld,
-           IR_out =>ir_out
+           IR_out =>irout
 			  );
 			  
-controller_ic4:controller portmap(
+controller_ic4:controller port map(
         reset =>reset,
         -- controller_en : in STD_LOGIC; -- high activate Start: enable CPU
         clk =>clk, -- Clock
         ALUz=>ALUz, 
 		  ALUeq=>ALUeq,
 		  ALUgt =>ALUgt,
-        Instr_in =>ir_out,
+        Instr_in =>irout,
         RFs =>RFs,
         RFwa => RFwa,
         RFwe=>RFwe,
