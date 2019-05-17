@@ -80,21 +80,21 @@ state<=resET_S;
 elsif clk'event and clk='1' then
  case state is 
 		WheN REsET_S=>
-		pcclr='1';
+		pcclr<='1';
 		state<=fetCH;
 		
 		
 		when fetCH=>
-		addr_sel='10';
-		mre='1';
+		addr_sel<="10";
+		mre<='1';
 		state<=fetCHa;
 		
 		when fetCHa=>
-		IRld='1';
+		IRld<='1';
 		state<=fetCHb;
 		
 		when fetCHb=>
-		PCincr='1';
+		PCincr<='1';
 		state<=decODE;
 		casE opcode is
 		
@@ -114,69 +114,69 @@ elsif clk'event and clk='1' then
 		
 	when MOV1 =>
 	STAte<=Mov1a;
-	Addr_sel <= '01'; -- load IR
+	Addr_sel <= "01"; -- load IR
 	Mre <= '1';
 
 
 	when MOV1a =>
-	RFs <= '10'; -- increment PC
+	RFs <= "10"; -- increment PC
 	RFWa <= rn;
 	RFwe <= '1';
 	STAte<=fetCH;
 
 
 	when MOV2 =>
-	OPr1=rn; opr1e='1';
+	OPr1a<=rn; opr1e<='1';
 	STAte<=Mov2a;
 
 	when MOV2a =>
-	addr_sel="01";mwe='1';
+	addr_sel<="01";mwe<='1';
 	STAte<=fetCH;
 
 	when MOV3 =>
-	OPR1a = rn; OPR1e = ‘1';
-OPR2a = rm; OPR2e = ‘1';
+	OPR1a <= rn; OPR1e <= '1';
+OPR2a <= rm; OPR2e <= '1';
 	STAte<=Mov3a;
 
 	when MOV3a =>
-	Addr_sel = “00”;
-Mwe = ‘1';
+	Addr_sel <="00";
+Mwe <='1';
 	STAte<=fetCH;
 
 	when MOV4 =>
-	RFs="01";
-	RFwa=rn;
-	RFWe='1';
+	RFs<="01";
+	RFwa<=rn;
+	RFWe<='1';
 	STAte<=fetCH;
 
 	when Add =>
-	OPR1a = rn; OPR1e = ‘1';
-OPR2a = rm; OPR2e = ‘1';
-ALUs = “00”;
+	OPR1a <= rn; OPR1e <='1';
+OPR2a <= rm; OPR2e <='1';
+ALUs <="00";
 	STAte<=Adda;
 
 	when Adda =>
-	RFs = “00”;
-RFwa = rn; RFwe = ‘1’;
+	RFs <="00";
+RFwa <= rn; RFwe <='1';
 	STAte<=fetCH;
 
 	when sub =>
-	OPR1a = rn; OPR1e = ‘1';
-OPR2a = rm; OPR2e = ‘1';
-ALUs = “01”;
+	OPR1a <= rn; OPR1e <='1';
+OPR2a <= rm; OPR2e <= '1';
+ALUs <= "01";
 	STAte<=suba;
 
 	when suba =>
-	RFs = “00”;
-RFwa = rn; RFwe = ‘1';
+	RFs <= "00";
+RFwa <= rn; RFwe <= '1';
 	STAte<=fetCH;
 	
 	when jz =>
-	OPR1a = rn; OPR1e = ‘1';
+	OPR1a <= rn; OPR1e <= '1';
 	STAte<=jza;
 	
 	when jza =>
-	PCLd = ALUz;
+	PCLd <= ALUz;
 			STAte<=fetCH;
 
 		When othERS=>state<=resET_S;
@@ -197,7 +197,7 @@ end if;
 	with state select addr_sel<="10" when fetCH,
 		"01" when mov1|mov2a,
 		"00" when mov3a,
-		"11" when othER;
+		"11" when othERs;
 		--enable memory reading	
 	with state select mre<='1' when fetCH|mov1,
 		'0' when othERs;
@@ -206,34 +206,33 @@ end if;
 		'0' when othERs;
 		--write RFs
 	with state select RFs<="10" when mov1a,
-								"01" when mov4,
-								"00" when Adda||Suba,
-								"11" when othERs;
+				"01" when mov4,
+				"00" when Adda|Suba,
+				"11" when othERs;
 								
 	with state select RFWa<=rn when mov1a|adda|mov4|suba,
-								"0000" when othERs;
+				"0000" when othERs;
 								
-	with state select RFWe<=rn when mov1a|adda|mov4|suba,
-							"0000" when othERs;
+	with state select RFWe<='1' when mov1a|adda|mov4|suba,
+				 '0' when othERs;
 							
 							--read opr1
-						with state select Opr1a<='1' when mov2|mov3|add|sub|Jz,
-								"0000" when othERs;
+	with state select Opr1e<='1' when mov2|mov3|add|sub|Jz,
+				'0' when othERs;
 								
-	with state select OPR1e<=rn when mov2|mov3|add|sub|Jz,
-							"0000" when othERs;
+	with state select OPR1a<=rn when mov2|mov3|add|sub|Jz,
+				"0000" when othERs;
 							
 							--read opr2
-							with state select Opr2a<=rm when mov3|add|sub,
-								"0000" when othERs;
+	with state select Opr2a<=rm when mov3|add|sub,
+				"0000" when othERs;
 								
 	with state select OPR2e<='1' when mov3|add|sub,
-							"0000" when othERs;
+				'0' when othERs;
 					--select operationi of ALU
-		with state select ALUs<="00" when add|adda,
-								"01" when sub|suba,
-								"10" when OR_S,
-								"11" when othERs;			
-	
+	with state select ALUs<="00" when add|adda,
+				"01" when sub|suba,
+				"10" when OR_S,
+				"11" when othERs;			
 										
 end controller;
