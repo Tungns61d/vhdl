@@ -43,7 +43,60 @@ entity cpu is
 end cpu;
 
 architecture cpu_struct of cpu is
+--signal irout1 :irout(7 downto 0);
+signal addr_out_op2,OP2:std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal RFs,Alus :std_LOGIC_vECTOR(1 downto 0);
+signal RFwa,OPr1a,OPr2a :std_LOGIC_vECTOR(3 downto 0);
+signal RFwe,OPr1e,OPr2e,aluz,alueq,alugt :std_LOGIc;
 
 begin
+
+datapath1_ic1:datapath Port map
+		(reset =>reset,
+        clk=>clk,
+
+        data_in1 =>OP2,
+        data_in2 =>data_out,
+
+        RFs => RFs,
+        RFwa=>RFwa,
+		  OPr1a=>OPr1a,
+		  OPr2a =>OPr2a,
+        RFwe => RFwe,
+		  OPr1e=>OPr1e,
+		  OPr2e => OPr2e,
+        ALUs =>ALUs,
+        ALUz =>ALUz,
+        ALUeq =>ALUeq,
+        ALUgt =>ALUgt,
+	Addr_out =>Addr_out_op2,-- Addr_out<=opr2;
+        data_out =>data_out
+        );
+control_unit_ic2:control_unit port map(
+        reset =>reset,
+        -- controller_en : in STD_LOGIC; -- high activate Start: enable CPU
+        clk =>clk,
+        ALUz=>ALUz,
+		  ALUeq=>ALUeq,
+		  ALUgt=>ALUgt,
+        Addr_in =>addr_out_op2,
+        RFs =>RFs,
+        RFwa =>RFwa,
+        RFwe =>RFwe,
+        OPr1a =>OPr1a,
+        OPr1e =>OPr1e,
+        OPr2a =>OPr2a,
+        OPr2e =>OPr2e,
+        ALUs =>ALUs,
+
+        OP2 =>OP2,
+
+        Mem_in =>data_in,
+        Mre =>Mre,
+        Mwe =>Mwe,
+        Addr_out =>Addr_out
+    );
+
+
 
 end cpu_struct;

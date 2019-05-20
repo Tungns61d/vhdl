@@ -47,6 +47,7 @@ entity control_unit is
         OPr2a : out STD_LOGIC_VECTOR(ADDR_WIDTH - 1 downto 0);
         OPr2e : out STD_LOGIC;
         ALUs : out STD_LOGIC_VECTOR(1 downto 0);
+
         OP2 : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
 
         Mem_in : in STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
@@ -58,24 +59,29 @@ end control_unit;
 
 architecture control_unit of control_unit is
 
-signal irout :std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal irout,ir_op2 :std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
 signal pcout :std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
 signal pcclr,PCincr,Irld,pcld: STD_LOGIC;
 signal addr_sel: STD_LOGIC_VECTOR(1 downto 0);
 
 begin
-mux_ic1:mux3to1 port map (data_in0=>mem_in,data_in1=>irout,data_in2=>pcout,sel=>Addr_sel,data_out=>addr_out );
+mux_ic1:mux3to1 port map (
+	data_in0=>addr_in,
+	data_in1=>ir_op2,
+	data_in2=>pcout,
+	sel=>Addr_sel,
+	data_out=>addr_out );
 pc_ic2:program_counter port map(
  clk => clk,
            PCclr =>pcclr,
            PCincr =>PCincr,
            PCld =>pcld,
-           PC_in =>irout,
+           PC_in =>ir_op2,
            PC_out =>pcout);
 			  
 ir_ic3:instruction_register Port map (
 			clk =>clk,
-           IR_in =>Addr_in,
+           IR_in =>mem_in,
            IRld =>IRld,
            IR_out =>irout
 			  );
@@ -102,7 +108,9 @@ controller_ic4:controller port map(
         PCld =>PCld,
         Addr_sel =>Addr_sel,
         Mre =>Mre,
-        Mwe =>Mwe
-        --OP2 : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0)
+        Mwe =>Mwe --,
+        --OP2 =>op2
     );
+ir_op2 <=x"00"&irout(7 downto 0);
+OP2 <= ir_op2;
 end control_unit;

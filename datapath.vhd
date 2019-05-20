@@ -45,7 +45,7 @@ entity datapath is
         ALUz : out STD_LOGIC;
         ALUeq : out STD_LOGIC;
         ALUgt : out STD_LOGIC;
-	Addr_out : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
+	Addr_out : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);-- Addr_out<=opr2;
         data_out : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0)
         );
 end datapath;

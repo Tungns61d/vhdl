@@ -53,8 +53,8 @@ entity controller is
         PCld : out STD_LOGIC;
         Addr_sel : out STD_LOGIC_VECTOR(1 downto 0);
         Mre : out STD_LOGIC;
-        Mwe : out STD_LOGIC --;
-        --OP2 : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0)
+        Mwe : out STD_LOGIC ;
+        OP2 : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0)
     );
 end controller;
 
@@ -190,7 +190,7 @@ end if;
 	PCincr<='1' when state<=fetCHb else '0';
 	PCld<= ALUz when state<=Jza else '0';
 	--for ir
-		IRld<='1' when state<=fetCHa else '0';
+	IRld<='1' when state<=fetCHa else '0';
 		
 		----song song va nam ngoai process nen khong the dung case
 		--with selecting memory address
