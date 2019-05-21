@@ -54,14 +54,14 @@ signal RF:rf_array (0 to 15);
 begin
  process (clk,reset)
  begin
-if reset = '1' then
-	--RF<=Others=> (Others =>	'0'); chua chac
-	rf<=(others => (others=>'0')); --mo ta phan ghi du lieu vao rf
+	if reset = '1' then
+		--RF<=Others=> (Others =>	'0'); chua chac
+		rf<=(others => (others=>'0')); --mo ta phan ghi du lieu vao rf
 
-	OPR1<=(Others =>'0');
-	OPR2<=(others =>'0');
+		OPR1<=(Others =>'0');
+		OPR2<=(others =>'0');
 	
-elsif (clk ='1' and clk'event) then
+	elsif (clk ='1' and clk'event) then
 		if RFwe ='1' then
 			RF(conv_integer(RFWa)) <=RFin;
 		end if;
@@ -73,7 +73,6 @@ elsif (clk ='1' and clk'event) then
 		if OPR2e='1' then
 			opr2<=RF(conv_integer(OPR2a));
 		end if;
-end if;
-
+	end if;
  end process;
 end register_file;

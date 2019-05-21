@@ -53,8 +53,8 @@ entity controller is
         PCld : out STD_LOGIC;
         Addr_sel : out STD_LOGIC_VECTOR(1 downto 0);
         Mre : out STD_LOGIC;
-        Mwe : out STD_LOGIC ;
-        OP2 : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0)
+        Mwe : out STD_LOGIC 
+        --OP2 : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0)
     );
 end controller;
 
@@ -80,21 +80,20 @@ state<=resET_S;
 elsif clk'event and clk='1' then
  case state is 
 		WheN REsET_S=>
-		pcclr<='1';
+		--pcclr<='1';
 		state<=fetCH;
 		
 		
 		when fetCH=>
-		addr_sel<="10";
-		mre<='1';
+		--addr_sel<="10";		mre<='1';
 		state<=fetCHa;
 		
 		when fetCHa=>
-		IRld<='1';
+		--IRld<='1';
 		state<=fetCHb;
 		
 		when fetCHb=>
-		PCincr<='1';
+		--PCincr<='1';
 		state<=decODE;
 		casE opcode is
 		
@@ -112,85 +111,73 @@ elsif clk'event and clk='1' then
 			WHEN OTHERS => state <=NOP ;
 		END CASE;
 		
-	when MOV1 =>
+
+when MOV1 =>
+	--Addr_sel <= "01"; -- load IR	Mre <= '1';
 	STAte<=Mov1a;
-	Addr_sel <= "01"; -- load IR
-	Mre <= '1';
 
 
-	when MOV1a =>
-	RFs <= "10"; -- increment PC
-	RFWa <= rn;
-	RFwe <= '1';
+when MOV1a =>
+	--RFs <= "10"; -- increment PC	RFWa <= rn;	RFwe <= '1';
 	STAte<=fetCH;
 
 
-	when MOV2 =>
-	OPr1a<=rn; opr1e<='1';
+when MOV2 =>
+	--OPr1a<=rn; opr1e<='1';
 	STAte<=Mov2a;
 
-	when MOV2a =>
-	addr_sel<="01";mwe<='1';
+when MOV2a =>
+	--addr_sel<="01";mwe<='1';
 	STAte<=fetCH;
 
-	when MOV3 =>
-	OPR1a <= rn; OPR1e <= '1';
-OPR2a <= rm; OPR2e <= '1';
+when MOV3 =>
+	--OPR1a <= rn; OPR1e <= '1';	OPR2a <= rm; OPR2e <= '1';	
 	STAte<=Mov3a;
 
-	when MOV3a =>
-	Addr_sel <="00";
-Mwe <='1';
+when MOV3a =>
+	--Addr_sel	 <="00";	Mwe <='1';
 	STAte<=fetCH;
 
-	when MOV4 =>
-	RFs<="01";
-	RFwa<=rn;
-	RFWe<='1';
+when MOV4 =>
+	--RFs<="01";	RFwa<=rn;	RFWe<='1';
 	STAte<=fetCH;
 
-	when Add =>
-	OPR1a <= rn; OPR1e <='1';
-OPR2a <= rm; OPR2e <='1';
-ALUs <="00";
+when Add =>
+	--OPR1a <= rn; OPR1e <='1';	OPR2a <= rm; OPR2e <='1';	ALUs <="00";
 	STAte<=Adda;
 
-	when Adda =>
-	RFs <="00";
-RFwa <= rn; RFwe <='1';
+when Adda =>
+	--RFs <="00";	RFwa <= rn; RFwe <='1';
 	STAte<=fetCH;
 
-	when sub =>
-	OPR1a <= rn; OPR1e <='1';
-OPR2a <= rm; OPR2e <= '1';
-ALUs <= "01";
+when sub =>
+	--OPR1a <= rn; OPR1e <='1';	OPR2a <= rm; OPR2e <= '1';	ALUs <= "01";
 	STAte<=suba;
 
-	when suba =>
-	RFs <= "00";
-RFwa <= rn; RFwe <= '1';
+when suba =>
+	--RFs <= "00";	RFwa <= rn; RFwe <= '1';
 	STAte<=fetCH;
 	
-	when jz =>
-	OPR1a <= rn; OPR1e <= '1';
+when jz =>
+	--OPR1a <= rn; OPR1e <= '1';
 	STAte<=jza;
 	
-	when jza =>
-	PCLd <= ALUz;
-			STAte<=fetCH;
-
-		When othERS=>state<=resET_S;
-		end casE;
-end if;
-		end proCESS;
+when jza =>
+	--	PCLd <= ALUz;
+	STAte<=fetCH;
+	When othERS=>state<=resET_S;
+	end casE;
+	end if;
+end proCESS;
 		
 
 --output function
-	PCclr<='1' when state<=resET_S else '0';
-	PCincr<='1' when state<=fetCHb else '0';
-	PCld<= ALUz when state<=Jza else '0';
-	--for ir
-	IRld<='1' when state<=fetCHa else '0';
+--for pc
+	PCclr<='1' when state =resET_S else '0';
+	PCincr<='1' when state =fetCHb else '0';
+	PCld<= ALUz when state =Jza else '0';
+--for ir
+	IRld<='1' when state = fetCHa else '0';
 		
 		----song song va nam ngoai process nen khong the dung case
 		--with selecting memory address

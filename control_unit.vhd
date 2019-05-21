@@ -80,10 +80,10 @@ pc_ic2:program_counter port map(
            PC_out =>pcout);
 			  
 ir_ic3:instruction_register Port map (
-			clk =>clk,
-           IR_in =>mem_in,
-           IRld =>IRld,
-           IR_out =>irout
+	clk =>clk,
+	IR_in =>mem_in,
+	IRld =>IRld,
+	IR_out =>irout
 			  );
 			  
 controller_ic4:controller port map(
@@ -99,8 +99,10 @@ controller_ic4:controller port map(
         RFwe=>RFwe,
         OPr1a =>OPr1a,
         OPr1e => OPr1e,
+
         OPr2a => OPr2a,
         OPr2e => OPr2e,
+
         ALUs => ALUs,
         IRld =>IRld,
         PCincr =>PCincr,
@@ -108,8 +110,8 @@ controller_ic4:controller port map(
         PCld =>PCld,
         Addr_sel =>Addr_sel,
         Mre =>Mre,
-        Mwe =>Mwe --,
-        --OP2 =>op2
+        Mwe =>Mwe--  ,
+--        OP2 =>op2
     );
 ir_op2 <=x"00"&irout(7 downto 0);
 OP2 <= ir_op2;

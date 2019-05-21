@@ -56,7 +56,7 @@ datapath1_ic1:datapath Port map
         clk=>clk,
 
         data_in1 =>OP2,
-        data_in2 =>data_out,
+   	     data_in2 =>data_in,
 
         RFs => RFs,
         RFwa=>RFwa,
