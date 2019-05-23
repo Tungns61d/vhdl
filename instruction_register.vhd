@@ -36,15 +36,19 @@ entity instruction_register is
 end instruction_register;
 
 architecture instruction_register of instruction_register is
-
+--signal ir_z: std_LOGIC_VECTOR( datA_WIDTH -1 downto 0);
 begin
- process(clk)
+ process(clk,irld,ir_in)
  begin
  if (clk='1' and clk'event) then
+--ir_z<=ir_in;
  if(IRLd='1') then
  ir_out<=ir_in;
- 
+--ir_z<=ir_in;
+-- elsif ir_out<=(others=>'0');
  end if;
  end if;
  end process;
+
+--ir_out<=ir_z;
 end instruction_register;

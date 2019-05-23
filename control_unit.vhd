@@ -65,12 +65,15 @@ signal pcclr,PCincr,Irld,pcld: STD_LOGIC;
 signal addr_sel: STD_LOGIC_VECTOR(1 downto 0);
 
 begin
-mux_ic1:mux3to1 port map (
-	data_in0=>addr_in,
-	data_in1=>ir_op2,
-	data_in2=>pcout,
-	sel=>Addr_sel,
-	data_out=>addr_out );
+ir_ic3:instruction_register Port map (
+	clk =>clk,
+	IR_in =>mem_in,
+	IRld =>IRld,
+	IR_out =>irout
+			  );
+
+ir_op2 <=x"00"&irout(7 downto 0);
+
 pc_ic2:program_counter port map(
  clk => clk,
            PCclr =>pcclr,
@@ -79,12 +82,7 @@ pc_ic2:program_counter port map(
            PC_in =>ir_op2,
            PC_out =>pcout);
 			  
-ir_ic3:instruction_register Port map (
-	clk =>clk,
-	IR_in =>mem_in,
-	IRld =>IRld,
-	IR_out =>irout
-			  );
+
 			  
 controller_ic4:controller port map(
         reset =>reset,
@@ -113,6 +111,14 @@ controller_ic4:controller port map(
         Mwe =>Mwe--  ,
 --        OP2 =>op2
     );
-ir_op2 <=x"00"&irout(7 downto 0);
+
+mux_ic1:mux3to1 port map (
+	data_in0=>addr_in,
+	data_in1=>ir_op2,
+	data_in2=>pcout,
+	sel=>Addr_sel,
+	data_out=>addr_out );
+
+
 OP2 <= ir_op2;
 end control_unit;

@@ -94,7 +94,8 @@ elsif clk'event and clk='1' then
 		
 		when fetCHb=>
 		--PCincr<='1';
-		state<=decODE;
+		--state<=decODE;
+	--WHEN decode =>
 		casE opcode is
 		
 		
@@ -105,8 +106,8 @@ elsif clk'event and clk='1' then
 			WHEN "0100" => state <= ADD;
 			WHEN "0101" => state <= SUB;
 			WHEN "0110" => state <= JZ;
-			WHEN "0111" => state <= OR_S;
-			WHEN "1000" => state <= AND_S;
+			--WHEN "0111" => state <= OR_S;
+		--	WHEN "1000" => state <= AND_S;
 			
 			WHEN OTHERS => state <=NOP ;
 		END CASE;
@@ -170,14 +171,15 @@ when jza =>
 	end if;
 end proCESS;
 		
-
+--output_logic: PROCESS(state)
+--begin	
 --output function
 --for pc
-	PCclr<='1' when state =resET_S else '0';
-	PCincr<='1' when state =fetCHb else '0';
-	PCld<= ALUz when state =Jza else '0';
+		PCclr<='1' when (state =resET_S) else '0';
+	PCincr<='1' when (state =fetCHb) else '0';
+	PCld<= ALUz when (state =Jza) else '0';--vua sua else '0'->1
 --for ir
-	IRld<='1' when state = fetCHa else '0';
+	IRld<='1' when (state = fetCHa) else '0';
 		
 		----song song va nam ngoai process nen khong the dung case
 		--with selecting memory address
@@ -220,6 +222,6 @@ end proCESS;
 	with state select ALUs<="00" when add|adda,
 				"01" when sub|suba,
 				"10" when OR_S,
-				"11" when othERs;			
-										
+			"11" when othERs;			
+	--end process;										
 end controller;
