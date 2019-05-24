@@ -44,12 +44,9 @@ end cpu;
 
 architecture cpu_struct of cpu is
 --signal irout1 :irout(7 downto 0);
-signal addr_out_op2,OP2:std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
-signal RFs,Alus :std_LOGIC_vECTOR(1 downto 0);
-signal RFwa,OPr1a,OPr2a :std_LOGIC_vECTOR(3 downto 0);
-signal RFwe,OPr1e,OPr2e,aluz,alueq,alugt :std_LOGIc;
 
-component datapath is
+
+component datapath 
 Port(reset : in STD_LOGIC;
         clk: in STD_LOGIC;
 
@@ -65,9 +62,9 @@ Port(reset : in STD_LOGIC;
 	Addr_out : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);-- Addr_out<=opr2;
         data_out : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0)
         );
-end component datapath;
+end component ;
 
-component control_unit is
+component control_unit 
 port(
         reset : in STD_LOGIC; -- high activate reset signal
         -- controller_en : in STD_LOGIC; -- high activate Start: enable CPU
@@ -90,8 +87,12 @@ port(
         Mwe : out STD_LOGIC;
         Addr_out : out STD_LOGIC_VECTOR(MADDR_WIDTH - 1 downto 0)
     );
-end component control_unit;
+end component ;
 
+signal addr_out_op2,OP2:std_LOGIC_vECTOR(datA_WIDTH - 1 downto 0);
+signal RFs,Alus :std_LOGIC_vECTOR(1 downto 0);
+signal RFwa,OPr1a,OPr2a :std_LOGIC_vECTOR(3 downto 0);
+signal RFwe,OPr1e,OPr2e,aluz,alueq,alugt :std_LOGIc;
 
 begin
 

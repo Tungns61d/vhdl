@@ -48,13 +48,13 @@ begin
    process(clk,PCclr,pcld,pcincr)
 	begin
 	if(PCclr='1') then
-	PC_out<=(Others =>'0');
+	PC_z<=(Others =>'0');
 	
 	elsif (clk='1' and clk'event) then
 		if (PCld='1') then	
 			pc_z<=pc_in;
 		elsif (PCincr='1') then
-			pc_z<=pc_z+1;
+			pc_z<=pc_z+"0000000000000001";
 			
 		
 		end if;
