@@ -35,8 +35,8 @@ architecture tb of tb_soc is
     signal hex5     : std_logic_vector (0 to 6);
     signal hex6     : std_logic_vector (0 to 6);
     signal hex7     : std_logic_vector (0 to 6);
-    signal ledg     : std_logic_vector (8 downto 0);
-    signal ledr     : std_logic_vector (17 downto 0);
+    signal ledg_address     : std_logic_vector (8 downto 0);
+    signal ledr_sw     : std_logic_vector (17 downto 0);
 
     constant TbPeriod : time := 1000 ns; -- EDIT Put right period here
     signal TbClock : std_logic := '0';
@@ -55,8 +55,8 @@ begin
               hex5     => hex5,
               hex6     => hex6,
               hex7     => hex7,
-              ledg     => ledg,
-              ledr     => ledr);
+              ledg     => ledg_address,
+              ledr     => ledr_sw);
 
     -- Clock generation
     TbClock <= not TbClock after TbPeriod/2 when TbSimEnded /= '1' else '0';
@@ -68,21 +68,27 @@ begin
     begin
         -- EDIT Adapt initialization as needed
         sw <= (others => '0');
-sw <= "010101010100110101";
-wait for 500 ns;
+sw <= "110101010100110101";
+wait for 2500 ns;
 	sw <= "010011010000110101";
-wait for 500 ns;
-	sw <= "000011010100110101";
-wait for 500 ns;
+wait for 2500 ns;
+	sw <= "010101011100110010";
+wait for 3500 ns;
+	sw <= "100011010100110101";
+wait for 2500 ns;
+	sw <= "011001010000111010";
+wait for 2500 ns;
 	sw <= "001101010001011011";
-wait for 500 ns;
+wait for 3500 ns;
+
+sw <= "010101010100110101";
 
         -- Reset generation
         --  EDIT: Replace YOURRESETSIGNAL below by the name of your reset as I haven't guessed it
         sw(16) <= '1';
-        wait for 500 ns;
+        wait for 5500 ns;
         sw(16) <= '0';
-        wait for 500 ns;
+        wait for 3500 ns;
 
         -- EDIT Add stimuli here
         wait for 100 * TbPeriod;

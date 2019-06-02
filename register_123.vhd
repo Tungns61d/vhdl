@@ -24,11 +24,11 @@ BEGIN
 process(clk,reset)
 begin
 if reset='1' then
-	--data_in<= (others => '0');
+	ir_out<= (others => '0');
 	
 	elsif (clk='1' and clk'event) then
-
-	ir_out <= RF(conv_integer(data_in));
+ir_out <=data_in ;
+	--ir_out <= RF(conv_integer(data_in));
 
 --else ir_out<="0010000100000100";
 end if;
