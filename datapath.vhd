@@ -84,6 +84,8 @@ alu_ic3: alu port map(
 Addr_out<=opr2;
 data_out<=opr1;
 
+alueq<='0';
+alugt<='1';
 
 
 --mo ta phan ghi du lieu vao rf

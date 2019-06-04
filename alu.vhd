@@ -60,4 +60,6 @@ end process;
 
 ALUr <= result;
 aluz <='1' when (OPR1 =0) else '0';
+alueq<='1' when (OPR1=	OPr2) else '0';
+alugt<= '0' when (OPR1=	OPr2) else '1';
 end ALU;

@@ -23,18 +23,18 @@ end soc;--20
 
 architecture behaviour of soc is--24
 constant fdiv:integer:=24;
---component ramp
---port
---(
---	address:in std_logic_vector(7 downto 0);
---	clock:in std_logic;
---	data:in std_logic_vector(15 downto 0);
---	wren:in std_logic;
---	q:out std_logic_vector(15 downto 0)
---);	--34
---end component;
+component ramp
+port
+(
+	address:in std_logic_vector(7 downto 0);
+	clock:in std_logic;
+	data:in std_logic_vector(15 downto 0);
+	wren:in std_logic;
+	q:out std_logic_vector(15 downto 0)
+);	--34
+end component;
 
---component clk1Hz port(clk_in: in  STD_LOGIC;reset:in STD_LOGIC;enable: in  STD_LOGIC;clk_out: out STD_LOGIC);end component;
+component clk1Hz port(clk_in: in  STD_LOGIC;reset:in STD_LOGIC;enable: in  STD_LOGIC;cnt_out: out STD_LOGIC);end component;
 component char_7seg0 port(C: IN STD_LOGIC_VECTOR(3 DOWNTO 0); Display : OUT STD_LOGIC_VECTOR(6 downto 0));end component;
 --component char_7seg1 port(C: IN STD_LOGIC_VECTOR(3 DOWNTO 0); Display : OUT STD_LOGIC_VECTOR(6 downto 0));end component;
 --component char_7seg2 port(C: IN STD_LOGIC_VECTOR(3 DOWNTO 0); Display : OUT STD_LOGIC_VECTOR(6 downto 0));end component;
@@ -63,7 +63,8 @@ signal addr :std_logic_vector(data_width-1 downto 0);--43
 
 signal datain:std_logic_vector(data_width-1 downto 0);
 signal dataout:std_logic_vector(data_width-1 downto 0);--47
-signal cnt_out:std_logic_vector (fdiv-1 downto 0);--signal cnt_out:std_logic;
+--signal cnt_out:std_logic_vector (fdiv-1 downto 0);
+signal cnt_out:std_logic;
 signal ir_out:std_logic_vector (data_width-1 downto 0);
 
 signal Rwen,Mwen,Mren:std_logic;--51
@@ -75,10 +76,11 @@ MWen<=wen and (not(addr(12)or addr(13) or addr(14) or addr(15)));
 Rwen<=wen and (not((not addr(12)) or addr(13) or addr(14) or addr(15)));
 ledg(8)<=rwen;
 --clock generate
-clk<=clock_50;--clk<=cnt_out(22);
---clk_gen: clk1Hz 
+--clk<=clock_50;
+clk<=cnt_out;--(22);
+clk_gen: clk1Hz 
 --generic map (data_width=>24) 
---port map (clock_50,reset,sw(16),cnt_out(22));--them 1 line
+port map (clock_50,reset,sw(16),cnt_out);--(22));--them 1 line
 --reset generate
 reset <=sw(17);--62
 --uut component
@@ -94,21 +96,21 @@ port map (
 	);
 		
 nreset<=not(reset);
-memory:dpmem--75 ---memory:ramp
-generic map (data_width=>16)
+memory:ramp--75 ---memory:dpmem
+--generic map (data_width=>16)
 port map (
-clk	=>clk, --clk=>clk,
-nReset=>nreset,--address	=> addr(7 downto 0)
-addr => addr,
-Datain=>dataout,--addr=>addr(15 downto 0),
-ren	=>mren,--datain=>dataout,--82--wen		=> mwen
-wen =>Mwen,
-Dataout=>datain		--		Dataout		=>datain,--Ren =>rwen,
+clock	=>clk, --clk=>clk,
+--nReset=>nreset,--address	=> addr(7 downto 0)
+address => addr(7 downto 0),
+data=>dataout,--addr=>addr(15 downto 0),
+wren	=>mren,--datain=>dataout,--82--wen		=> mwen
+--wen =>Mwen,
+q=>datain		--		Dataout		=>datain,--Ren =>rwen,
 	);
 
 maybeRegister:register_123 
 --maybe_register_cuoi
-generic map (data_width=>16)--91
+--generic map (data_width=>16)--91
 port map (clk=>clk,reset=>reset,Data_in=>dataout,wen=>rwen,ir_out=>ir_out);
 ------------------
 ic2:char_7seg0 port map (ir_out(3 downto 0),hex0);

@@ -15,12 +15,12 @@ end soc_tb;
  
 architecture behavior of soc_tb is
 
---component soc port(clock_50:in std_logic;sw:in std_logic_vector(17 downto 0);--13
---hex0,hex1,hex2,hex3,hex4,hex5,hex6,hex7:out std_logic_vector(0 to 6);
---ledg:out std_logic_vector ( 8 DOWnto 0);
+component soc port(clock_50:in std_logic;sw:in std_logic_vector(17 downto 0);--13
+hex0,hex1,hex2,hex3,hex4,hex5,hex6,hex7:out std_logic_vector(0 to 6);
+ledg:out std_logic_vector ( 8 DOWnto 0);
 
---ledr:out std_logic_vector (17 downto 0));
---end component;
+ledr:out std_logic_vector (17 downto 0));
+end component;
 
 
   Constant   CLKTIME   :       time      := 20 ns;

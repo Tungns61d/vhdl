@@ -38,7 +38,7 @@ architecture tb of tb_soc is
     signal ledg_address     : std_logic_vector (8 downto 0);
     signal ledr_sw     : std_logic_vector (17 downto 0);
 
-    constant TbPeriod : time := 1000 ns; -- EDIT Put right period here
+    constant TbPeriod : time := 1000 ms; -- EDIT Put right period here
     signal TbClock : std_logic := '0';
     signal TbSimEnded : std_logic := '0';
 
@@ -68,6 +68,7 @@ begin
     begin
         -- EDIT Adapt initialization as needed
         sw <= (others => '0');
+wait for 3000 ns;
 sw <= "110101010100110101";
 wait for 2500 ns;
 	sw <= "010011010000110101";
@@ -86,7 +87,7 @@ sw <= "010101010100110101";
         -- Reset generation
         --  EDIT: Replace YOURRESETSIGNAL below by the name of your reset as I haven't guessed it
         sw(16) <= '1';
-        wait for 5500 ns;
+        wait for 4000 ns;
         sw(16) <= '0';
         wait for 3500 ns;
 
