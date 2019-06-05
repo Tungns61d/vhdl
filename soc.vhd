@@ -36,7 +36,7 @@ end component;
 
 component clk1Hz port(clk_in: in  STD_LOGIC;reset:in STD_LOGIC;enable: in  STD_LOGIC;cnt_out: out STD_LOGIC);end component;
 component char_7seg0 port(C: IN STD_LOGIC_VECTOR(3 DOWNTO 0); Display : OUT STD_LOGIC_VECTOR(6 downto 0));end component;
---component char_7seg1 port(C: IN STD_LOGIC_VECTOR(3 DOWNTO 0); Display : OUT STD_LOGIC_VECTOR(6 downto 0));end component;
+component char_7seg1 port(C: IN STD_LOGIC_VECTOR(3 DOWNTO 0); Display : OUT STD_LOGIC_VECTOR(6 downto 0));end component;
 --component char_7seg2 port(C: IN STD_LOGIC_VECTOR(3 DOWNTO 0); Display : OUT STD_LOGIC_VECTOR(6 downto 0));end component;
 --component dpmem port ( Clk: in  std_logic;nReset: in  std_logic;addr: in  std_logic_vector(15 downto 0);Wen:in  std_logic;Datain:in  std_logic_vector(15 downto 0) := (others => '0');Ren: in  std_logic; Dataout : out std_logic_vector(15 downto 0)  );end component;
 component dpmem
@@ -115,13 +115,13 @@ port map (clk=>clk,reset=>reset,Data_in=>dataout,wen=>rwen,ir_out=>ir_out);
 ------------------
 ic2:char_7seg0 port map (ir_out(3 downto 0),hex0);
 ic3:char_7seg0 port map (ir_out(7 downto 4),hex1);
-ic4:char_7seg0 port map (ir_out(11 downto 8),hex2);
-ic5:char_7seg0 port map (ir_out(15 downto 12),hex3);
+ic4:char_7seg1 port map (ir_out(11 downto 8),hex2);
+ic5:char_7seg1 port map (ir_out(15 downto 12),hex3);
 ------------------------
 ic6:char_7seg0 port map (addr(3 downto 0),hex4);
 ic7:char_7seg0 port map (addr(7 downto 4),hex5);
-ic8:char_7seg0 port map (addr(11 downto 8),hex6);
-ic9:char_7seg0 port map (addr(15 downto 12),hex7);
+ic8:char_7seg1 port map (addr(11 downto 8),hex6);
+ic9:char_7seg1 port map (addr(15 downto 12),hex7);
 ----------
 ledr(15 downto 0)<=ir_out;
 ledr(17 downto 16)<=sw(17 downto 16);

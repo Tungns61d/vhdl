@@ -19,7 +19,7 @@ begin
         if (reset = '1' ) then
             counter <= 0;
             --cnt_out <= (others=>'0');
-        elsif rising_edge(clk_in) then
+        elsif (rising_edge(clk_in) and enable='1' )then
            if (counter=25000000 ) then
 	
                 temporal <= not temporal;-- + "0000000000000000000000001";
