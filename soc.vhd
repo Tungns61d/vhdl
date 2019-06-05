@@ -76,11 +76,13 @@ MWen<=wen and (not(addr(12)or addr(13) or addr(14) or addr(15)));
 Rwen<=wen and (not((not addr(12)) or addr(13) or addr(14) or addr(15)));
 ledg(8)<=rwen;
 --clock generate
---clk<=clock_50;
-clk<=cnt_out;--(22);
+clk<=clock_50;
+
 clk_gen: clk1Hz 
 --generic map (data_width=>24) 
 port map (clock_50,reset,sw(16),cnt_out);--(22));--them 1 line
+--clock generate
+--clk<=cnt_out;--(22);
 --reset generate
 reset <=sw(17);--62
 --uut component

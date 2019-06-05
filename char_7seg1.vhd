@@ -26,11 +26,11 @@ display<="0000001"when C="0000" else  --0
 	"0000000"when C="1000"  else --8
 	"0000100" when C="1001" else  --9
 
-	"0000010"when C="1010" else  --a
+	"0001000"when C="1010" else  --a
 	"1100000"when C="1011" else  --b
 	"0110001"when C="1100"  else --c
 	"1000010"when C="1101"  else --d
-	"0111000" when C="1110" else  --e
+	"0110000" when C="1110" else  --e
 	"0111000";--f
 
 

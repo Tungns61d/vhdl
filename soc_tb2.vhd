@@ -68,21 +68,27 @@ begin
     begin
         -- EDIT Adapt initialization as needed
         sw <= (others => '0');
-wait for 3000 ns;
+wait for 10 sec;
 sw <= "110101010100110101";
-wait for 2500 ns;
+wait for 2 sec;
 	sw <= "010011010000110101";
-wait for 2500 ns;
+wait for 2 sec;
 	sw <= "010101011100110010";
-wait for 3500 ns;
+wait for 5 sec;
+sw <= "110101010111110101";
+wait for 3 sec;
 	sw <= "100011010100110101";
-wait for 2500 ns;
+wait for 2 sec;
 	sw <= "011001010000111010";
-wait for 2500 ns;
+wait for 5 sec;
+sw <= "110101010100110101";
+wait for 5 sec;
 	sw <= "001101010001011011";
-wait for 3500 ns;
+wait for 3 sec;
 
 sw <= "010101010100110101";
+wait for 35000 ns;
+ sw <= (others => '0');
 
         -- Reset generation
         --  EDIT: Replace YOURRESETSIGNAL below by the name of your reset as I haven't guessed it

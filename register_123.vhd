@@ -26,8 +26,10 @@ begin
 if reset='1' then
 	ir_out<= (others => '0');
 	
-	elsif (clk='1' and clk'event and wen ='1') then
+	elsif (clk='1' and clk'event ) then
+	if(wen='1')then
 ir_out <=data_in ;
+end if;
 	--ir_out <= RF(conv_integer(data_in));
 
 --else ir_out<="0010000100000100";
