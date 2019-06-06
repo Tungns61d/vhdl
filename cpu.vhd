@@ -37,7 +37,7 @@ entity cpu is
         clk : in STD_LOGIC;
         Data_in : in STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
         Addr_out : out STD_LOGIC_VECTOR(MADDR_WIDTH - 1 downto 0);
-        Data_out : inout STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
+        Data_out : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
         Mre, Mwe : out STD_LOGIC
         );
 end cpu;

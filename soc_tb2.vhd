@@ -36,7 +36,7 @@ architecture tb of tb_soc is
     signal hex6     : std_logic_vector (0 to 6);
     signal hex7     : std_logic_vector (0 to 6);
     signal ledg_address     : std_logic_vector (8 downto 0);
-    signal ledr_sw     : std_logic_vector (17 downto 0);
+    signal ledr_irout     : std_logic_vector (17 downto 0);
 
     constant TbPeriod : time := 1000 ms; -- EDIT Put right period here
     signal TbClock : std_logic := '0';
@@ -56,7 +56,7 @@ begin
               hex6     => hex6,
               hex7     => hex7,
               ledg     => ledg_address,
-              ledr     => ledr_sw);
+              ledr     => ledr_irout);
 
     -- Clock generation
     TbClock <= not TbClock after TbPeriod/2 when TbSimEnded /= '1' else '0';

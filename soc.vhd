@@ -23,6 +23,16 @@ end soc;--20
 
 architecture behaviour of soc is--24
 constant fdiv:integer:=24;
+component cpu
+Port (reset : in STD_LOGIC;
+        clk : in STD_LOGIC;
+        Data_in : in STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
+        Addr_out : out STD_LOGIC_VECTOR(MADDR_WIDTH - 1 downto 0);
+        Data_out : out STD_LOGIC_VECTOR(DATA_WIDTH - 1 downto 0);
+        Mre, Mwe : out STD_LOGIC
+        );
+end component;
+
 component ramp
 port
 (
@@ -74,15 +84,15 @@ begin
 Mren<=Ren and (not(addr(12)or addr(13) or addr(14) or addr(15)));
 MWen<=wen and (not(addr(12)or addr(13) or addr(14) or addr(15)));
 Rwen<=wen and (not((not addr(12)) or addr(13) or addr(14) or addr(15)));
-ledg(8)<=rwen;
+ledg(8)<=not rwen;
 --clock generate
-clk<=clock_50;
+--clk<=clock_50;
 
 clk_gen: clk1Hz 
 --generic map (data_width=>24) 
 port map (clock_50,reset,sw(16),cnt_out);--(22));--them 1 line
 --clock generate
---clk<=cnt_out;--(22);
+clk<=cnt_out;--(22);
 --reset generate
 reset <=sw(17);--62
 --uut component
@@ -113,15 +123,15 @@ q=>datain		--		Dataout		=>datain,--Ren =>rwen,
 maybeRegister:register_123 
 --maybe_register_cuoi
 --generic map (data_width=>16)--91
-port map (clk=>clk,reset=>reset,Data_in=>dataout,wen=>rwen,ir_out=>ir_out);
+port map (clk=>clk,reset=>reset,Data_in=>datain,wen=>rwen,ir_out=>ir_out);
 ------------------
-ic2:char_7seg0 port map (ir_out(3 downto 0),hex0);
-ic3:char_7seg0 port map (ir_out(7 downto 4),hex1);
+ic2:char_7seg1 port map (ir_out(3 downto 0),hex0);--irout hex0->hex5
+ic3:char_7seg1 port map (ir_out(7 downto 4),hex1);
 ic4:char_7seg1 port map (ir_out(11 downto 8),hex2);
 ic5:char_7seg1 port map (ir_out(15 downto 12),hex3);
 ------------------------
-ic6:char_7seg0 port map (addr(3 downto 0),hex4);
-ic7:char_7seg0 port map (addr(7 downto 4),hex5);
+ic6:char_7seg1 port map (addr(3 downto 0),hex4);
+ic7:char_7seg1 port map (addr(7 downto 4),hex5);
 ic8:char_7seg1 port map (addr(11 downto 8),hex6);
 ic9:char_7seg1 port map (addr(15 downto 12),hex7);
 ----------
