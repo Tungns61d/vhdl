@@ -22,10 +22,10 @@ BEGIN
 process(clk,reset)
 begin
 if reset='1' then
-	ir_out<=x"1100";
+	ir_out<=x"0000";
 	 
 elsif (clk='1' and clk'event ) then
-	if wen ='0' then
+	if wen ='1' then
 		ir_out<=data_in;
 	end if;
 end if;
