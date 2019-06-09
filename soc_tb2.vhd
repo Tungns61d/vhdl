@@ -1,10 +1,11 @@
--- Testbench automatically generated online
--- at http://vhdl.lapinoo.net
--- Generation date : 31.5.2019 10:40:53 GMT
-
 library ieee;
 use ieee.std_logic_1164.all;
-
+use ieee.std_logic_arith.all;
+use ieee.STD_LOGIC_UNSIGNED.all;
+use WORK.MICROPROCESSOR_LIB.ALL;
+ 
+use std.textio.all;
+ 
 entity tb_soc is
 end tb_soc;
 
@@ -13,6 +14,7 @@ architecture tb of tb_soc is
     component soc
         port (clock_50 : in std_logic;
               sw       : in std_logic_vector (17 downto 0);
+		
               hex0     : out std_logic_vector (0 to 6);
               hex1     : out std_logic_vector (0 to 6);
               hex2     : out std_logic_vector (0 to 6);
@@ -68,26 +70,16 @@ begin
     begin
         -- EDIT Adapt initialization as needed
         sw <= (others => '0');
-wait for 10 sec;
+wait for 2 sec;
 sw <= "110101010100110101";
 wait for 2 sec;
-	sw <= "010011010000110101";
+	sw <= "010011010000110110";
 wait for 2 sec;
 	sw <= "010101011100110010";
 wait for 5 sec;
-sw <= "110101010111110101";
+sw <= "110101010111110110";
 wait for 3 sec;
-	sw <= "100011010100110101";
-wait for 2 sec;
-	sw <= "011001010000111010";
-wait for 5 sec;
-sw <= "110101010100110101";
-wait for 5 sec;
-	sw <= "001101010001011011";
-wait for 3 sec;
-
-sw <= "010101010100110101";
-wait for 35000 ns;
+	
  sw <= (others => '0');
 
         -- Reset generation

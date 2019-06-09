@@ -10,14 +10,14 @@ entity soc is
 port(
 		--in port
 		clock_50:in std_logic;
-		sw 	:in std_logic_vector(17 downto 0);--13
+		sw 	:in std_logic_vector(17 downto 0);
 		--out port
 		hex0,hex1,hex2,hex3,hex4,hex5,hex6,hex7:out std_logic_vector(0 to 6);
 
 		ledg:out std_logic_vector ( 8 DOWnto 0);
 
 		ledr:out std_logic_vector (17 downto 0));
-end soc;--20
+end soc;
 
 
 
@@ -42,7 +42,7 @@ port
 	data:in std_logic_vector(15 downto 0);
 	wren:in std_logic;
 	q:out std_logic_vector(15 downto 0)
-);	--34
+);	
 end component;
 ---------------------------------------------
 component clk1Hz port(clk_in: in  STD_LOGIC;reset:in STD_LOGIC;enable: in  STD_LOGIC;cnt_out: out STD_LOGIC);end component;
@@ -102,7 +102,7 @@ reset <=sw(17);
 dut_pro:cpu 
 port map (
 		reset=>reset,
-		clk=>clk,--67
+		clk=>clk,
 		data_in=>datain,
 		addr_out=>addr,
 		data_out=>dataout,
@@ -138,6 +138,6 @@ ic9:char_7seg1 port map (addr(15 downto 12),hex7);
 ledr(15 downto 0)<=ir_out;
 ledr(17 downto 16)<=sw(17 downto 16);
 ledg(7 downto 0)<=addr(7 downto 0);
---read process 107
+--read process 
 
 end behaviour;
